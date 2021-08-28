@@ -1,0 +1,45 @@
+%matplotlib inline
+import cmath
+import math
+import numpy as np
+from numpy import loadtxt
+import matplotlib.pyplot as plt
+from scipy import integrate
+
+# operações em t = 0
+
+def psi_indep(x,a): # definindo função psi independente do tempo
+    A = np.sqrt(12/a**3)
+    if 0<=x<=(a/2):
+        return A*x
+    elif (a/2<x<=a):
+        return A*(a-x)
+    else:
+        return 0
+
+m = 1000
+x_list = np.linspace(0,5,m) # 1000 pontos entre 0 e 5; indices de [0] a [999]
+
+psi_indep_list = []
+
+a = 5 # defino largura do poço
+i = 0
+
+while i<=m-1: # contagem de 0 a 999
+    psi_indep_list.append(psi_indep(x_list[i],a)) # varrendo eixo x: rodo psi_indep para um x[i] da lista de x; armazeno na lista
+    i = i+1
+
+plt.plot(x_list,psi_indep_list,color='blue',label='indep') # plot de psi(x,0) para cada um dos x_list
+
+psi_indep_array = []
+psi_indep_array = np.array(psi_indep_list) # criei um array da lista já existente para poder fazer operações
+psi_indep_array = psi_indep_array**2
+
+plt.plot(x_list,psi_indep_array, color='black',label='indep**2') # plot do módulo quadrado de psi(x,0) para cada x de listax_list
+
+plt.legend()
+plt.grid(True)
+plt.ylabel('$\Psi$(x,0)')
+plt.xlabel('x')
+plt.title('$\Psi$(x,0) com a = 5')
+
